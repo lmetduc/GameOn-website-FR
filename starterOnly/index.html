@@ -60,7 +60,7 @@
               name="reserve"
               action="index.html"
               method="get"
-              onsubmit="validate()"
+              novalidate
             >
               <div
                 class="formData">
@@ -71,7 +71,8 @@
                   id="first"
                   name="first"
                   minlength="2"
-                /><br>
+                />
+                <span class="error" id="first-error"></span>
               </div>
               <div
                 class="formData">
@@ -82,7 +83,8 @@
                   id="last"
                   name="last"
                   minlength="2"
-                /><br>
+                />
+                <span class="error" id="last-error"></span>
               </div>
               <div
                 class="formData">
@@ -92,7 +94,8 @@
                   type="email"
                   id="email"
                   name="email"
-                /><br>
+                />
+                <span class="error" id="email-error"></span>
               </div>
               <div
                 class="formData">
@@ -102,7 +105,8 @@
                   type="date"
                   id="birthdate"
                   name="birthdate"
-                /><br>
+                />
+                <span class="error" id="birthdate-error"></span>
               </div>
               <div
                 class="formData">

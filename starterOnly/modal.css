@@ -478,7 +478,19 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
-@media screen and (max-width: 800px) {
+
+/* input errors */
+.error {
+  display: none;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #fe142f;
+}
+input.invalid {
+  border: 2px solid #fe142f;
+}
+
+@media screen and (max-width: 1150px) {
   .hero-section {
     display: block;
     box-shadow: unset;
