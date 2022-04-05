@@ -42,9 +42,14 @@ const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")
  */
 formData.forEach((formElement) => {
   const input = formElement.querySelector("input");
-  const inputId = input.id;
 
-  input.addEventListener("keyup", function() { validateInput(inputId, input.value) } );
+  if (input.name === "location") {
+    const radios = formElement.querySelectorAll("input[type=radio]");
+    radios.forEach((radio) => radio.addEventListener("change", function() { validateRadio(formElement) } ));
+  } else {
+    const inputId = input.id;
+    input.addEventListener("keyup", function() { validateInput(inputId, input.value) } );
+  }
 })
 
 /**
@@ -67,12 +72,46 @@ function validateInput(inputId, value) {
       isValid = false;
       errorMsg = "Veuillez renseigner un email valide";
     }
+  } else if (inputId === "quantity") {
+    isValid =  value !== "";
+    errorMsg = "Ce champ est requis";
   }
 
   if (isValid) {
     removeError(inputId);
   } else {
     setError(inputId, errorMsg);
+  }
+}
+
+/**
+ * Validate radio in a given form element (validate a radio is checked)
+ * @param {*} formElement the form element to validate radio for
+ */
+function validateRadio(formElement) {
+  const input = formElement.querySelectorAll("input[type=radio]");
+
+  let isChecked = false;
+  let name = input[0].name;
+  input.forEach((radio) => {
+    if (radio.checked) {
+      isChecked = true;
+    }
+  });
+
+  const formError = document.querySelector(`#${name}-error`);
+  if (!isChecked) {
+    input.forEach((radio) => {
+      radio.classList.add("invalid");
+    });
+    formError.innerHTML = "Veuillez choisir un tournois";
+    formError.style.display = "block";
+  } else {
+    input.forEach((radio) => {
+      radio.classList.remove("invalid");
+    });
+    formError.innerHTML = "";
+    formError.style.display = "none";
   }
 }
 
@@ -112,8 +151,12 @@ function validateForm(e) {
   e.preventDefault();
   formData.forEach((formElement) => {
     const input = formElement.querySelector("input");
-    const inputId = input.id;
-    validateInput(inputId, input.value);
+    if (input.name === "location") {
+      validateRadio(formElement);
+    } else {
+      const inputId = input.id;
+      validateInput(inputId, input.value);
+    }
   })
 }
 
