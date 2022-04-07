@@ -46,6 +46,13 @@ formData.forEach((formElement) => {
   if (input.name === "location") {
     const radios = formElement.querySelectorAll("input[type=radio]");
     radios.forEach((radio) => radio.addEventListener("change", function() { validateRadio(formElement) } ));
+  } else if (input.id === "checkbox1" || input.id === "checkbox2") {
+    const checkbox = formElement.querySelector("input#checkbox1");
+    const inputId = checkbox.id;
+    checkbox.addEventListener("change", function() { validateInput(inputId, checkbox.checked) } );
+  } else if (input.id === "quantity") {
+    const inputId = input.id;
+    input.addEventListener("change", function() { validateInput(inputId, input.value) } );
   } else {
     const inputId = input.id;
     input.addEventListener("keyup", function() { validateInput(inputId, input.value) } );
@@ -75,6 +82,9 @@ function validateInput(inputId, value) {
   } else if (inputId === "quantity") {
     isValid =  value !== "";
     errorMsg = "Ce champ est requis";
+  } else if (inputId === "checkbox1") {
+    isValid = value;
+    errorMsg = "Vous devez accepter les termes et conditions";
   }
 
   if (isValid) {
@@ -123,7 +133,12 @@ function validateRadio(formElement) {
 function setError(inputId, errorMsg) {
   const formError = document.querySelector(`#${inputId}-error`);
   const input = document.querySelector(`#${inputId}`);
-  
+
+  const checkbox = document.querySelector(`label[for=${inputId}] > .checkbox-icon`);  
+  if (checkbox) {
+    checkbox.classList.add("invalid");
+  }
+
   input.classList.add("invalid");
   formError.innerHTML = errorMsg;
   formError.style.display = "block";
@@ -136,7 +151,12 @@ function setError(inputId, errorMsg) {
 function removeError(inputId) {
   const formError = document.querySelector(`#${inputId}-error`);
   const input = document.querySelector(`#${inputId}`);
-  
+
+  const checkbox = document.querySelector(`label[for=${inputId}] > .checkbox-icon`);  
+  if (checkbox) {
+    checkbox.classList.remove("invalid");
+  }
+
   input.classList.remove("invalid");
   formError.innerHTML = "";
   formError.style.display = "none";
@@ -153,6 +173,10 @@ function validateForm(e) {
     const input = formElement.querySelector("input");
     if (input.name === "location") {
       validateRadio(formElement);
+    } else if (input.id === "checkbox1" || input.id === "checkbox2") {
+      const checkbox = formElement.querySelector("input#checkbox1");
+      const inputId = checkbox.id;
+      validateInput(inputId, checkbox.checked);
     } else {
       const inputId = input.id;
       validateInput(inputId, input.value);
