@@ -50,7 +50,7 @@ formData.forEach((formElement) => {
     const checkbox = formElement.querySelector("input#checkbox1");
     const inputId = checkbox.id;
     checkbox.addEventListener("change", function() { validateInput(inputId, checkbox.checked) } );
-  } else if (input.id === "quantity") {
+  } else if (input.id === "quantity" || input.id === "birthdate") {
     const inputId = input.id;
     input.addEventListener("change", function() { validateInput(inputId, input.value) } );
   } else {
@@ -80,11 +80,32 @@ function validateInput(inputId, value) {
       errorMsg = "Veuillez renseigner un email valide";
     }
   } else if (inputId === "quantity") {
-    isValid =  value !== "";
-    errorMsg = "Ce champ est requis";
+    if (value === "") {
+      isValid = false;
+      errorMsg = "Ce champ est requis";
+    } else if (value < 0 || value > 99) {
+      isValid = false;
+      errorMsg = "Veuillez indiquer un nombre compris entre 0 et 99";
+    }
   } else if (inputId === "checkbox1") {
     isValid = value;
     errorMsg = "Vous devez accepter les termes et conditions";
+  } else if (inputId === "birthdate") {
+    const birthdate = new Date(value).getTime();
+    // Do not allow birthdate less than 18 years ago
+    const minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 18)).getTime();
+    // Do not allow birthdate 150 years ago
+    const maxDate = new Date(new Date().setFullYear(new Date().getFullYear() - 150)).getTime();
+    if (birthdate < maxDate) {
+      isValid = false;
+      errorMsg = "Veilleuz choisir une date plus récente";
+    } else if (birthdate > minDate) {
+      isValid = false;
+      errorMsg = "Vous devez avoir au moins 18 ans pour participer";
+    } else if (value === "") {
+      isValid = false;
+      errorMsg = "Veillez indiquer votre date de naissance";
+    }
   }
 
   if (isValid) {
