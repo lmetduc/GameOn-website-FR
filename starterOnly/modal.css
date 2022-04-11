@@ -11,10 +11,8 @@
 /* Landing Page */
 
 body {
-  margin: 0;
   display: flex;
   flex-direction: column;
-  background-image: url("background.png");
   font-family: var(--font-default);
   font-size: 18px;
   max-width: 1300px;
@@ -23,19 +21,24 @@ body {
 
 p {
   margin-bottom: 0;
-  padding: 0.5vw;
+  padding: 5px;
 }
 
 img {
-  padding-right: 1rem;
+  padding-right: 10px;
 }
 
 .topnav {
   overflow: hidden;
-  margin: 3.5%;
+  display: block;
+  margin: 40px 30px 50px 30px;
+  position: relative;
 }
 .header-logo {
     float: left;
+    position: absolute;
+    top: 5px;
+
 }
 .main-navbar {
     float: right;
@@ -62,21 +65,23 @@ img {
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 15px;
+  text-decoration: underline;
 }
 
 .topnav .icon {
   display: none;
+  color: #ff0000;
+  font-size: 20px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1050px) {
   .topnav a {display: none;}
   .topnav a.icon {
     float: right;
     display: block;
-  }
-}
 
-@media screen and (max-width: 768px) {
+  }
+
   .topnav.responsive {position: relative;}
   .topnav.responsive .icon {
     position: absolute;
@@ -88,31 +93,19 @@ img {
     display: block;
     text-align: left;
   }
-}
 
-
-
- @media screen and (max-width: 540px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-    margin-top: -15px;
+  .main-navbar {
+    width: 280px;
   }
-} 
+}
 
 main {
   font-size: 130%;
   font-weight: bolder;
   color: black;
-  padding-top: 0.5vw;
-  padding-left: 2vw;
-  padding-right: 2vw;
-  margin: 1px 20px 15px;
-  border-radius: 2rem;
+  margin: 10px 30px 0 30px;
+  border-radius: 20px;
   text-align: justify;
-
-
 }
 
 .modal-btn {
@@ -407,7 +400,6 @@ input[data-error]::after {
   font-size: 16px;
 }
 .hero-section {
-  min-height: 93vh;
   border-radius: 10px;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -464,6 +456,7 @@ input[data-error]::after {
   height: 100%;
   display: block;
   padding: 0;
+  object-fit: cover;
 }
 .copyrights {
   color: #fe142f;
@@ -516,6 +509,12 @@ input.invalid + label.checkbox-label > .checkbox-icon {
 }
 
 @media screen and (max-width: 1150px) {
+  .header-logo {
+    max-width: 40%;
+  }
+  .logo {
+    width:100%;
+  }
   .hero-section {
     display: block;
     box-shadow: unset;
