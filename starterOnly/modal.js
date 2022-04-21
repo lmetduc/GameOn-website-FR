@@ -79,8 +79,9 @@ function validateInput(inputId, value) {
   return isValid;
 }
 
-function validateLength(value) {
-  if (value.trim().length < 2) {
+function validateLength(value, minLength = 2) {
+
+  if (value.trim().length < minLength) {
     return { isValid: false, errorMsg: "Veuillez compléter votre champ avec plus de deux caractères" };
   }
   return { isValid: true, errorMsg: "" };
@@ -108,14 +109,13 @@ function validateQuantity(value) {
 
 function validateBirthdate(value) {
   const birthdate = new Date(value).getTime();
+  let now = new Date();
+  let currentYear = now.getFullYear();
+
   // Do not allow birthdate less than 18 years ago
-  const minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 18)).getTime();
-  // Do not allow birthdate 150 years ago
-  const maxDate = new Date(new Date().setFullYear(new Date().getFullYear() - 150)).getTime();
+  const minDate = new Date(now.setFullYear(currentYear - 18)).getTime();
   
-  if (birthdate < maxDate) {
-    return { isValid: false, errorMsg: "Veilleuz choisir une date plus récente" };
-  } else if (birthdate > minDate) {
+  if (birthdate > minDate) {
     return { isValid: false, errorMsg: "Vous devez avoir au moins 18 ans pour participer" };
   } else if (value === "") {
     return { isValid: false, errorMsg: "Veillez indiquer votre date de naissance" };
@@ -198,7 +198,9 @@ function setError(inputId, errorMsg, toRemove) {
  */
 function validateForm(e) {
   e.preventDefault();
+
   let isValid = true;
+  
   formData.forEach((formElement) => {
     const input = formElement.querySelector("input");
     if (input.name === "location") {
@@ -207,7 +209,8 @@ function validateForm(e) {
         isValid = false;
       }
     } else if (input.id === "checkbox1") {
-      if (!validateInput(input.id, input.checked)) {
+      const valid = validateInput(input.id, input.checked)
+      if (!valid) {
         isValid = false;
       }
     } else {

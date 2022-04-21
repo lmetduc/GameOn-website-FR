@@ -519,7 +519,6 @@ input.invalid + label.checkbox-label > .checkbox-icon {
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  width: 200px;
 }
 
 @media screen and (max-width: 1050px) {
